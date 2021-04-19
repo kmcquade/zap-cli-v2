@@ -3,26 +3,28 @@ ZAP CLI tool for targeted tests from the command line.
 
 .. moduleauthor:: Daniel Grunwell (grunny)
 """
-
-import ast
 import os
 import re
 
 from setuptools import setup
 
 
-here = os.path.abspath(os.path.dirname(__file__))
+HERE = os.path.abspath(os.path.dirname(__file__))
+VERSION_RE = re.compile(r"""__version__ = ['"]([0-9.]+)['"]""")
+TESTS_REQUIRE = ["coverage", "nose", "pytest", "moto[s3]"]
 
-with open(os.path.join(here, 'zapcli', '__init__.py'), 'rb') as f:
-    version = str(ast.literal_eval(re.search(
-        r'__version__\s*=\s*(.*)', f.read().decode('utf-8')).group(1)))
+
+def get_version():
+    init = open(os.path.join(HERE, "zapcli", "version.py")).read()
+    return VERSION_RE.search(init).group(1)
+
 
 with open('README.rst', 'r') as f:
     long_description = f.read()
 
 setup(
-    name='zapcli',
-    version=version,
+    name='zap-cli-v2',
+    version=get_version(),
     description='A ZAP CLI tool for targeted tests from the command line.',
     long_description=long_description,
     url='https://github.com/Grunny/zap-cli',
@@ -34,28 +36,28 @@ setup(
         'zapcli.commands',
     ],
     install_requires=[
-        'click==4.0',
-        'python-owasp-zap-v2.4==0.0.14',
-        'requests==2.20.1',
-        'tabulate==0.7.5',
-        'termcolor==1.1.0',
-        'six==1.10.0',
+        'click',
+        'python-owasp-zap-v2.4',
+        'requests',
+        'tabulate',
+        'termcolor',
+        'six',
     ],
     extras_require={
         'dev': [
-            'coverage==3.7.1',
-            'ddt==1.0.1',
-            'mock==2.0.0',
-            'pep8==1.6.2',
-            'pylint==1.5.5',
-            'pytest==3.0.7',
-            'responses==0.5.1',
+            'coverage',
+            'ddt',
+            'mock',
+            'pep8',
+            'pylint',
+            'pytest',
+            'responses',
         ],
     },
     include_package_data=True,
     entry_points={
         'console_scripts': [
-            'zap-cli=zapcli.cli:cli',
+            'zap-cli-v2=zapcli.cli:cli',
         ],
     },
     test_suite='tests',

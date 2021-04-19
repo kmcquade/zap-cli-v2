@@ -1,11 +1,13 @@
-ZAP CLI
-=======
+ZAP CLI V2
+==========
 
 .. image:: https://travis-ci.org/Grunny/zap-cli.svg?branch=master
     :target: https://travis-ci.org/Grunny/zap-cli
 
 A commandline tool that wraps the OWASP ZAP API for controlling ZAP and
 executing quick, targeted attacks.
+
+This is a fork of https://github.com/Grunny/zap-cli, which is not currently maintained. It has been updated for the sole purpose of fixing a dependency issue.
 
 Installation
 ============
@@ -21,7 +23,7 @@ following:
 
 ::
 
-    pip install --upgrade git+https://github.com/Grunny/zap-cli.git
+    pip install --upgrade git+https://github.com/kmcquade/zap-cli.git
 
 To install ZAP CLI for development, including the dependencies needed
 in order to run unit tests, clone this repository and use

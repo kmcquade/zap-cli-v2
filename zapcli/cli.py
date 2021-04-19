@@ -6,7 +6,7 @@ import sys
 
 import click
 
-from zapcli import __version__
+from zapcli.version import __version__
 from zapcli import helpers
 from zapcli.commands.context import context_group
 from zapcli.commands.policies import policies_group

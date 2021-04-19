@@ -13,4 +13,5 @@ venv/
 *.iml
 .DS_Store
 .idea/
+.vscode
 sftp-config.json
