@@ -27,7 +27,7 @@ setup(
     version=get_version(),
     description='A ZAP CLI tool for targeted tests from the command line.',
     long_description=long_description,
-    url='https://github.com/Grunny/zap-cli',
+    url='https://github.com/kmcquade/zap-cli-v2',
     author='Daniel Grunwell (grunny)',
     author_email='mwgrunny@gmail.com',
     license='MIT',
