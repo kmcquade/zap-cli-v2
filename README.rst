@@ -16,7 +16,7 @@ To install the latest release from PyPI, you can run the following command:
 
 ::
 
-    pip install --upgrade zapcli
+    pip install --upgrade zap-cli-v2
 
 To install the latest development version of ZAP CLI, you can run the
 following:
