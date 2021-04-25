@@ -34,8 +34,9 @@ from zapcli.zap_helper import ZAPHelper
 @click.option('--log-path', envvar='ZAP_LOG_PATH', type=str,
               help='Path to the directory in which to save the ZAP output log file. Defaults to the value of ' +
               'the environment variable ZAP_LOG_PATH and uses the value of --zap-path if it is not set.')
+@click.option('--soft-fail', type=bool, is_flag=True, envvar="SOFT_FAIL", help="Runs scans but suppresses error code")
 @click.pass_context
-def cli(ctx, boring, verbose, zap_path, port, zap_url, api_key, log_path):
+def cli(ctx, boring, verbose, zap_path, port, zap_url, api_key, log_path, soft_fail):
     """Main command line entry point."""
     console.colorize = not boring
 
@@ -213,6 +214,7 @@ def quick_scan(zap_helper, url, **options):
     If any alerts are found for the given alert level, this command will exit
     with a status code of 1.
     """
+
     if options['self_contained']:
         console.info('Starting ZAP daemon')
         with helpers.zap_error_handler():
@@ -246,7 +248,12 @@ def quick_scan(zap_helper, url, **options):
         with helpers.zap_error_handler():
             zap_helper.shutdown()
 
-    exit_code = 1 if len(alerts) > 0 else 0
+    # Customization: Soft fail for error codes
+    if len(alerts) > 0 and options.get("soft_fail"):
+        exit_code = 1
+    else:
+        exit_code = 0
+    # exit_code = 1 if len(alerts) > 0 else 0
     sys.exit(exit_code)
 
 

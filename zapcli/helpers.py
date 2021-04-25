@@ -6,6 +6,7 @@ Helper methods for use by the CLI.
 
 from contextlib import contextmanager
 import json
+import os
 import re
 import sys
 
@@ -77,7 +78,10 @@ def zap_error_handler():
         yield
     except ZAPError as ex:
         console.error(str(ex))
-        sys.exit(2)
+        if not os.getenv("soft_fail"):
+            sys.exit(2)
+        else:
+            sys.exit(0)
 
 
 def report_alerts(alerts, output_format='table'):
