@@ -78,7 +78,7 @@ def zap_error_handler():
         yield
     except ZAPError as ex:
         console.error(str(ex))
-        if not os.getenv("soft_fail"):
+        if not os.getenv("SOFT_FAIL"):
             sys.exit(2)
         else:
             sys.exit(0)
