@@ -163,7 +163,7 @@ class ZAPCliTestCase(unittest.TestCase):
         result = self.runner.invoke(cli.cli, ['--boring', '--api-key', '', '--verbose', 'quick-scan',
                                               'http://localhost/', '--self-contained', '--scanners', 'xss',
                                               '--spider', '--exclude', 'pattern'])
-        self.assertEqual(result.exit_code, 1)
+        self.assertEqual(result.exit_code, 0)
 
     @patch('zapcli.zap_helper.ZAPHelper.start')
     def test_quick_scan_start_error(self, helper_mock):

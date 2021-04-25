@@ -3,7 +3,7 @@ ZAP CLI.
 """
 
 import sys
-
+import os
 import click
 
 from zapcli.version import __version__
@@ -34,7 +34,7 @@ from zapcli.zap_helper import ZAPHelper
 @click.option('--log-path', envvar='ZAP_LOG_PATH', type=str,
               help='Path to the directory in which to save the ZAP output log file. Defaults to the value of ' +
               'the environment variable ZAP_LOG_PATH and uses the value of --zap-path if it is not set.')
-@click.option('--soft-fail', type=bool, is_flag=True, envvar="SOFT_FAIL", help="Runs scans but suppresses error code")
+@click.option('--soft-fail', type=bool, default=False, is_flag=True, envvar="SOFT_FAIL", help="Runs scans but suppresses error code")
 @click.pass_context
 def cli(ctx, boring, verbose, zap_path, port, zap_url, api_key, log_path, soft_fail):
     """Main command line entry point."""
@@ -44,8 +44,10 @@ def cli(ctx, boring, verbose, zap_path, port, zap_url, api_key, log_path, soft_f
         console.setLevel('DEBUG')
     else:
         console.setLevel('INFO')
+    if soft_fail:
+        os.environ["SOFT_FAIL"] = "true"
 
-    ctx.obj = ZAPHelper(zap_path=zap_path, port=port, url=zap_url, api_key=api_key, log_path=log_path)
+    ctx.obj = ZAPHelper(zap_path=zap_path, port=port, url=zap_url, api_key=api_key, log_path=log_path, soft_fail=soft_fail)
 
 
 @cli.command('start', short_help='Start the ZAP daemon.')

@@ -40,7 +40,7 @@ class ZAPHelper(object):
     timeout = 60
     _status_check_sleep = 10
 
-    def __init__(self, zap_path='', port=8090, url='http://127.0.0.1', api_key='', log_path=None, logger=None):
+    def __init__(self, zap_path='', port=8090, url='http://127.0.0.1', api_key='', log_path=None, logger=None, soft_fail=False):
         if os.path.isfile(zap_path):
             zap_path = os.path.dirname(zap_path)
         self.zap_path = zap_path
@@ -50,6 +50,7 @@ class ZAPHelper(object):
         self.api_key = api_key
         self.log_path = log_path
         self.logger = logger or console
+        self.soft_fail = soft_fail
 
     @property
     def scanner_groups(self):
@@ -59,7 +60,7 @@ class ZAPHelper(object):
     def start(self, options=None):
         """Start the ZAP Daemon."""
         if self.is_running():
-            self.logger.warn('ZAP is already running on port {0}'.format(self.port))
+            self.logger.warning('ZAP is already running on port {0}'.format(self.port))
             return
 
         if platform.system() == 'Windows' or platform.system().startswith('CYGWIN'):
@@ -97,7 +98,7 @@ class ZAPHelper(object):
     def shutdown(self):
         """Shutdown ZAP."""
         if not self.is_running():
-            self.logger.warn('ZAP is not running.')
+            self.logger.warning('ZAP is not running.')
             return
 
         self.logger.debug('Shutting down ZAP.')
