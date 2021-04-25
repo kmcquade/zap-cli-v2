@@ -142,8 +142,9 @@ def ajax_spider_url(zap_helper, url):
 @click.option('--user-name', '-u', type=str,
               help='Run scan as this user if provided. If this option is used, the context parameter must also ' +
               'be provided.')
+@click.option('--soft-fail', type=bool, default=False, is_flag=True, envvar="SOFT_FAIL", help="Runs scans but suppresses error code")
 @click.pass_obj
-def active_scan(zap_helper, url, scanners, recursive, context_name, user_name):
+def active_scan(zap_helper, url, scanners, recursive, context_name, user_name, soft_fail):
     """
     Run an Active Scan against a URL.
 
@@ -204,6 +205,7 @@ def show_alerts(zap_helper, alert_level, output_format, exit_code):
 @click.option('--user-name', '-u', type=str,
               help='Run scan as this user if provided. If this option is used, the context parameter must also ' +
               'be provided.')
+@click.option('--soft-fail', type=bool, default=False, is_flag=True, envvar="SOFT_FAIL", help="Runs scans but suppresses error code")
 @click.pass_obj
 def quick_scan(zap_helper, url, **options):
     """
@@ -251,7 +253,7 @@ def quick_scan(zap_helper, url, **options):
             zap_helper.shutdown()
 
     # Customization: Soft fail for error codes
-    if len(alerts) > 0 and options.get("soft_fail"):
+    if len(alerts) > 0 and not options.get("soft_fail") and not os.getenv("SOFT_FAIL"):
         exit_code = 1
     else:
         exit_code = 0
